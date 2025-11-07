@@ -1,0 +1,305 @@
+/* General Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Category Filter Buttons */
+.category-btn {
+    text-align: left;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.category-btn.active {
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.category-btn[data-category="Work"] {
+    border-color: #0d6efd;
+}
+
+.category-btn[data-category="Work"].active {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.category-btn[data-category="Personal"] {
+    border-color: #198754;
+}
+
+.category-btn[data-category="Personal"].active {
+    background-color: #198754;
+    color: white;
+}
+
+.category-btn[data-category="Spam"] {
+    border-color: #dc3545;
+}
+
+.category-btn[data-category="Spam"].active {
+    background-color: #dc3545;
+    color: white;
+}
+
+.category-btn[data-category="Promotions"] {
+    border-color: #ffc107;
+}
+
+.category-btn[data-category="Promotions"].active {
+    background-color: #ffc107;
+    color: #000;
+}
+
+/* Email Table Styles */
+#emailTable {
+    font-size: 0.95rem;
+}
+
+#emailTable thead {
+    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#emailTable tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+#emailTable tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+#emailTable td {
+    vertical-align: middle;
+    padding: 0.75rem;
+}
+
+#emailTable th {
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+}
+
+/* Loading Spinner */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Sync Button Animation */
+#syncIcon.spinning {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Modal Styles */
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+#emailDetailBody {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+#composeBody {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    resize: vertical;
+}
+
+/* Toast Container */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.toast {
+    min-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.toast.success {
+    background-color: #d1e7dd;
+    border-left: 4px solid #198754;
+}
+
+.toast.error {
+    background-color: #f8d7da;
+    border-left: 4px solid #dc3545;
+}
+
+.toast.info {
+    background-color: #cfe2ff;
+    border-left: 4px solid #0d6efd;
+}
+
+.toast-header {
+    font-weight: 600;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.toast-body {
+    padding: 0.75rem;
+}
+
+/* Empty State */
+#emptyState {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+/* Pagination */
+.pagination {
+    margin-bottom: 0;
+}
+
+.page-link {
+    color: #0d6efd;
+}
+
+.page-item.disabled .page-link {
+    cursor: not-allowed;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .col-md-2 {
+        margin-bottom: 1rem;
+    }
+
+    #emailTable {
+        font-size: 0.85rem;
+    }
+
+    #emailTable td,
+    #emailTable th {
+        padding: 0.5rem;
+    }
+
+    /* Stack table on mobile */
+    #emailTable thead {
+        display: none;
+    }
+
+    #emailTable tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+    }
+
+    #emailTable tbody td {
+        display: block;
+        text-align: right;
+        padding: 0.5rem;
+        border-bottom: 1px solid #f8f9fa;
+    }
+
+    #emailTable tbody td:last-child {
+        border-bottom: none;
+    }
+
+    #emailTable tbody td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .toast-container {
+        right: 10px;
+        left: 10px;
+    }
+
+    .toast {
+        min-width: auto;
+    }
+}
+
+/* Badge Styles */
+.badge {
+    font-size: 0.85rem;
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+}
+
+/* Search Bar */
+#searchInput {
+    border-right: none;
+}
+
+#searchBtn,
+#clearSearchBtn {
+    border-left: none;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+/* Compose Button */
+#composeBtn {
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#composeBtn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

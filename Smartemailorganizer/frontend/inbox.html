@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox - Email Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Email Manager</a>
+            <div class="d-flex">
+                <button id="syncBtn" class="btn btn-primary me-2">
+                    <span id="syncIcon">🔄</span> Sync
+                </button>
+                <button id="logoutBtn" class="btn btn-outline-light">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <!-- Sidebar with filters -->
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Categories</h6>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-secondary category-btn active" data-category="all">
+                                All
+                            </button>
+                            <button class="btn btn-outline-primary category-btn" data-category="Work">
+                                Work
+                            </button>
+                            <button class="btn btn-outline-success category-btn" data-category="Personal">
+                                Personal
+                            </button>
+                            <button class="btn btn-outline-danger category-btn" data-category="Spam">
+                                Spam
+                            </button>
+                            <button class="btn btn-outline-warning category-btn" data-category="Promotions">
+                                Promotions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="composeBtn" class="btn btn-success w-100 mt-3">
+                    ✉️ Compose
+                </button>
+            </div>
+
+            <!-- Main content area -->
+            <div class="col-md-10">
+                <!-- Search bar -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="input-group">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search emails by subject or sender...">
+                            <button class="btn btn-outline-secondary" id="searchBtn">Search</button>
+                            <button class="btn btn-outline-secondary" id="clearSearchBtn">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email list -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Inbox</h5>
+                        <span id="emailCount" class="badge bg-secondary">0 emails</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="loadingSpinner" class="text-center p-5 d-none">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div id="emailListContainer">
+                            <table class="table table-hover mb-0" id="emailTable">
+                                <thead>
+                                    <tr>
+                                        <th>Sender</th>
+                                        <th>Subject</th>
+                                        <th>Category</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="emailTableBody">
+                                    <!-- Email rows will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="emptyState" class="text-center p-5 d-none">
+                            <p class="text-muted">No emails found</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <!-- Pagination controls -->
+                        <nav>
+                            <ul class="pagination justify-content-center mb-0" id="pagination">
+                                <li class="page-item disabled" id="prevPage">
+                                    <a class="page-link" href="#">Previous</a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <span class="page-link" id="pageInfo">Page 1</span>
+                                </li>
+                                <li class="page-item disabled" id="nextPage">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Detail Modal -->
+    <div class="modal fade" id="emailDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="emailDetailSubject">Email Subject</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <strong>From:</strong> <span id="emailDetailSender"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Date:</strong> <span id="emailDetailDate"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Category:</strong> <span id="emailDetailCategory" class="badge"></span>
+                    </div>
+                    <hr>
+                    <div id="emailDetailBody" style="white-space: pre-wrap;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compose Email Modal -->
+    <div class="modal fade" id="composeModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Compose Email</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="composeForm">
+                        <div class="mb-3">
+                            <label for="composeTo" class="form-label">To:</label>
+                            <input type="email" class="form-control" id="composeTo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="composeSubject" class="form-label">Subject:</label>
+                            <input type="text" class="form-control" id="composeSubject" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="composeBody" class="form-label">Body:</label>
+                            <textarea class="form-control" id="composeBody" rows="10" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="sendEmailBtn">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="api.js"></script>
+    <script src="toast.js"></script>
+    <script src="inbox.js"></script>
+</body>
+</html>
